@@ -1,8 +1,11 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller
 {
@@ -21,17 +24,26 @@ class MainController extends Controller
        if(!$userInfo){
            return back()->with('fail','We do not recognize your email address');
        }
-     //  else{
+     else{
            //check password
-         //  if(Hash::check($request->password, $userInfo->password)){
-          //     $request->session()->put('LoggedUser', $userInfo->id);
-              // return redirect('admin/dashboard');
-//
-           //}
+          if(Hash::check($request->password, $userInfo->password)){
+             $request->session()->put('LoggedUser', $userInfo->id);
+              return redirect('admin/dashboard');
+           }
            else{
                return back()->with('fail','Incorrect password');
            }
        }
    }
 
-
+   function logout(){
+    if(session()->has('LoggedUser')){
+        session()->pull('LoggedUser');
+        return redirect('/auth/login');
+    }
+}
+   function dashboard(){
+    $data = ['LoggedUserInfo'=>Admin::where('id','=', session('LoggedUser'))->first()];
+    return view('admin.dashboard', $data);
+}
+} 
