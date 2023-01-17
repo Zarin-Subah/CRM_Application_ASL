@@ -12,12 +12,17 @@ class AuthCheck
      * @param  \Closure  $next
      * @return mixed
      */
-    
-        public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role == 'title_officer') {
-            return $next($request);
+
+        if(!session()->has('LoggedUser') && ($request->path() !='auth/login')){
+            //return redirect('auth/login')->with('fail','You must be logged in');
+            return redirect()->route('auth.login');
         }
-        abort(403);
+
+        if(session()->has('LoggedUser') && ($request->path() == 'auth/login') ){
+            return back();
+        }
+        
     }
 }   

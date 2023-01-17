@@ -12,7 +12,7 @@ class MainController extends Controller
     function login(){
         return view('auth.login');
     }
-    function check(Request $request){
+    public function check(Request $request){
         //return $request->input();
         //Validate requests
         $request->validate([
@@ -45,5 +45,7 @@ class MainController extends Controller
    function dashboard(){
     $data = ['LoggedUserInfo'=>Admin::where('id','=', session('LoggedUser'))->first()];
     return view('admin.dashboard', $data);
+   // admin/dashboard
 }
+
 } 

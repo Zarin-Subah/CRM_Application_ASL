@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Middleware\AuthCheck;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,13 +19,15 @@ Route::get('/', function () {
 });
 Route::post('/auth/check',[MainController::class, 'check'])->name('auth.check');
 //Route::post('/auth/save',[MainController::class, 'save'])->name('auth.save');
-Route::get('/auth/login',[MainController::class, 'login'])->name('auth.login');
-Route::get('/admin/dashboard',[MainController::class, 'dashboard']);
-Route::get('/auth/logout',[MainController::class, 'logout'])->name('auth.logout');
-/*Route::group(['middleware'=>['AuthCheck']], function(){
-    Route::get('/auth/login',[MainController::class, 'login'])->name('auth.login');
 
-    Route::get('/admin/dashboard',[MainController::class, 'dashboard']);
-   
-});
-*/
+
+Route::get('/auth/logout',[MainController::class, 'logout'])->name('auth.logout');
+   /* 
+    Route::get('/auth/login',[MainController::class, 'login'])->name('auth.login');
+Route::get('/admin/dashboard',[MainController::class, 'dashboard']);
+ */
+Route::get('/auth/login',[MainController::class, 'login'])->name('auth.login');
+
+
+
+    Route::get('/admin/dashboard',[MainController::class, 'dashboard'])->middleware('AuthCheck');
