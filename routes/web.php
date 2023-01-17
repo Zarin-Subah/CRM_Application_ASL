@@ -27,7 +27,6 @@ Route::get('/auth/logout',[MainController::class, 'logout'])->name('auth.logout'
 Route::get('/admin/dashboard',[MainController::class, 'dashboard']);
  */
 Route::get('/auth/login',[MainController::class, 'login'])->name('auth.login');
+Route::get('/admin/dashboard',[MainController::class, 'dashboard'])->middleware('AuthCheck');
 
-
-
-    Route::get('/admin/dashboard',[MainController::class, 'dashboard'])->middleware('AuthCheck');
+    

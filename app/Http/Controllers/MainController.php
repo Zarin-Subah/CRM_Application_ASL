@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller
 {
-    function login(){
+    public function login(){
         return view('auth.login');
     }
     public function check(Request $request){
@@ -36,13 +36,13 @@ class MainController extends Controller
        }
    }
 
-   function logout(){
+   public function logout(){
     if(session()->has('LoggedUser')){
         session()->pull('LoggedUser');
         return redirect('/auth/login');
     }
 }
-   function dashboard(){
+public function dashboard(){
     $data = ['LoggedUserInfo'=>Admin::where('id','=', session('LoggedUser'))->first()];
     return view('admin.dashboard', $data);
    // admin/dashboard
